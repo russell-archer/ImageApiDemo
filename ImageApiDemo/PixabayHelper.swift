@@ -22,13 +22,17 @@ class PixabayHelper {
     public func loadImages(searchFor: String) {
         print("Loading data from Pixabay...")
         
+        guard searchFor.count > 2 else { return }
         guard _plistHelper.hasLoadedProperties else { return }
-        guard var query = _plistHelper.readProperty(key: "PixabayQuery") else { return }
-        guard let imageType = _plistHelper.readProperty(key: "PixabayImageType") else { return }
         
-        query += "&" + imageType + "&q=" + searchFor
+        // Example query: https://pixabay.com/api/?key=your-api-key&image_type=photo&q=coffee
+        guard var pixabayUrl = _plistHelper.readProperty(key: "PixabayUrl") else { return }
+        guard let pixabayApiKey = _plistHelper.readProperty(key: "PixabayApiKey") else { return }
+        guard let pixabayImageType = _plistHelper.readProperty(key: "PixabayImageType") else { return }
         
-        let url = URL(string: query)!
+        pixabayUrl += pixabayApiKey + "&" + pixabayImageType + "&q=" + searchFor
+        
+        let url = URL(string: pixabayUrl)!
         let session = URLSession.shared
         let task = session.dataTask(with: url) { (json, response, error) in
 
@@ -44,10 +48,13 @@ class PixabayHelper {
 
             // This is the Swift 4 type-safe method of parsing the JSON received from Pixabay.
             // See the model PixabayData used to map the JSON
-            self.pixabayData = try? JSONDecoder().decode(PixabayData.self, from: json!)
+            let decoder = JSONDecoder()
+            let dataModelType = PixabayData.self
+            self.pixabayData = try? decoder.decode(dataModelType, from: json!)
+            
             guard self.pixabayData != nil else { return }
 
-            // Call our delegate to let them know data is available.
+            // Call our delegate(s) to let them know data is available.
             // Because we're currently not running on the main thread we explicitly call the delegate
             // on the main thread in case they try to update the UI (which would throw an exception)
             DispatchQueue.main.async(execute: {

@@ -37,6 +37,7 @@ class ViewController: UIViewController {
         // view controller while the UISearchController is active
         definesPresentationContext = true
         
+        // Load some default images
         pixabayHelper.loadImages(searchFor: "kittens")
     }
 }
@@ -51,7 +52,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         
         // Convert the preview URL in the data returned from Pixabay to a UIImage
         if let pbd = pixabayHelper.pixabayData {
-            let url = URL(string: pbd.hits[(indexPath as NSIndexPath).row].previewURL)
+            let url = URL(string: pbd.hits[(indexPath as NSIndexPath).row].webformatURL)  // previewURL
             if let imageData = try? Data(contentsOf: url!) {
                 cell.previewImage.image = UIImage(data: imageData)!
             }
@@ -72,7 +73,7 @@ extension ViewController: UISearchResultsUpdating {
     @available(iOS 8.0, *)
     func updateSearchResults(for searchController: UISearchController) {
         let text = searchController.searchBar.text
-        guard text != nil && text!.count > 0 else { return }
+        guard text != nil && text!.count > 2 else { return }
         
         pixabayHelper.loadImages(searchFor: text!)
     }

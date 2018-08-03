@@ -64,17 +64,17 @@
 		68947B3920D802E400F9AF74 /* ImageApiDemo */ = {
 			isa = PBXGroup;
 			children = (
-				68947B3A20D802E400F9AF74 /* AppDelegate.swift */,
-				68947B3C20D802E400F9AF74 /* ViewController.swift */,
-				686A4DF720DAA6AA00143043 /* PixabayHelper.swift */,
-				686A4DFB20DAB8D100143043 /* PropertyFileHelper.swift */,
-				68CFA7D720D823FF00112FFC /* CollectionViewCell.swift */,
-				68E84D2520D91F9E008EFB8B /* PixabayData.swift */,
-				68947B3E20D802E400F9AF74 /* Main.storyboard */,
-				68947B4120D802E400F9AF74 /* Assets.xcassets */,
-				68947B4320D802E400F9AF74 /* LaunchScreen.storyboard */,
 				68947B4620D802E400F9AF74 /* Info.plist */,
 				686A4DF920DAA9F500143043 /* Pixabay.plist */,
+				68947B3A20D802E400F9AF74 /* AppDelegate.swift */,
+				68CFA7D720D823FF00112FFC /* CollectionViewCell.swift */,
+				68E84D2520D91F9E008EFB8B /* PixabayData.swift */,
+				686A4DF720DAA6AA00143043 /* PixabayHelper.swift */,
+				686A4DFB20DAB8D100143043 /* PropertyFileHelper.swift */,
+				68947B3C20D802E400F9AF74 /* ViewController.swift */,
+				68947B4120D802E400F9AF74 /* Assets.xcassets */,
+				68947B4320D802E400F9AF74 /* LaunchScreen.storyboard */,
+				68947B3E20D802E400F9AF74 /* Main.storyboard */,
 			);
 			path = ImageApiDemo;
 			sourceTree = "<group>";
