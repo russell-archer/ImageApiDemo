@@ -34,8 +34,8 @@ class PixabayHelper {
         
         let url = URL(string: pixabayUrl)!
         let session = URLSession.shared
-        let task = session.dataTask(with: url) { (json, response, error) in
-
+        let task = session.dataTask(with: url) { [weak self] (json, response, error) in
+            guard let self = self else { return }
             guard json != nil else { return }
 
             let httpResponse = response as! HTTPURLResponse
@@ -62,43 +62,6 @@ class PixabayHelper {
             })
         }
 
-        task.resume()
-    }
-    
-    public func loadImagesSwift3() {
-        guard _plistHelper.hasLoadedProperties else { return }
-        guard var query = _plistHelper.readProperty(key: "PixabayQuery") else { return }
-        guard let imageType = _plistHelper.readProperty(key: "PixabayImageType") else { return }
-        
-        query += "&" + imageType + "&q=coffee"
-        
-        let url = URL(string: query)!
-        let session = URLSession.shared
-        let task = session.dataTask(with: url) { (json, response, error) in
-            
-            guard json != nil else { return }
-            
-            let httpResponse = response as! HTTPURLResponse
-            print("HTTP response status: \(httpResponse.statusCode)")  // 200 == OK
-            
-            guard httpResponse.statusCode == 200 else {
-                print("The HTTP response status code indicates there was an error")
-                return
-            }
-            
-            // This is the Swift 3 dictionary-based method of parsing the JSON received from Pixabay.
-            // Parse the JSON into a dictionary which should have three elements: total, totalHits and hits,
-            if let jsonArray = try? JSONSerialization.jsonObject(with: json!, options: []) as? [String : AnyObject] {
-                if let hits = jsonArray!["hits"] as? [[String : Any]] {
-                    for hit in hits {
-                        if let id = hit["id"] {
-                            print(id)
-                        }
-                    }
-                }
-            }
-        }
-        
         task.resume()
     }
 }
